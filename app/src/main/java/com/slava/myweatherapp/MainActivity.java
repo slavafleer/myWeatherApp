@@ -46,10 +46,16 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onResponse(Response response) throws IOException {
 
-                if(response.isSuccessful())
-                    Log.v(TAG, response.body().string());
-                else
-                    Log.v(TAG, "There is some problem with connection to Forecast");
+                try {
+                    if(response.isSuccessful())
+                        Log.v(TAG, response.body().string());
+                    else
+                        Log.v(TAG, "There is some problem with connection to Forecast");
+                } catch (IOException e) {
+                    Log.e(TAG, "IOException caught: ", e);
+                } catch (Exception e) {
+                    Log.e(TAG, "Generic Exception caught: ", e);
+                }
             }
         });
     }
