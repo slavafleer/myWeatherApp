@@ -19,7 +19,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     // BeerSheva coordinates
-    private double latitude = 31.2589;
+    private double latitude = 931.2589;
     private double longitude = 34.7997;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +61,8 @@ public class MainActivity extends ActionBarActivity {
                     if(response.isSuccessful()) {
                         Log.v(TAG, response.body().string());
                     } else {
-                        Log.v(TAG, "There is some problem with connection to Forecast");
-                        userAlertMessage();
+                        Log.v(TAG, "There is some problem with connection to Forecast.");
+                        userForecastAlert();
                     }
                 } catch (IOException e) {
                     Log.e(TAG, "IOException caught: ", e);
@@ -73,8 +73,10 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-    private void userAlertMessage() {
-        AlertDialogFragment dialog = new AlertDialogFragment();
-        dialog.show(getFragmentManager(), "error_dialog");
+    private void userForecastAlert() {
+        AlertDialogFragment dialog = AlertDialogFragment.setMessage
+                (getString(R.string.forecast_error_title),
+                 getString(R.string.forecast_error_message));
+        dialog.show(getFragmentManager(), "dialog");
     }
 }
