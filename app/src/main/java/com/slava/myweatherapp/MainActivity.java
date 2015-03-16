@@ -22,7 +22,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     // BeerSheva coordinates
-    private double latitude = 931.2589;
+    private double latitude = 31.2589;
     private double longitude = 34.7997;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +101,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void userNoInternetConnectionAlert() {
         AlertDialogFragment dialog = AlertDialogFragment.setMessage
-                (getString(R.string.forecast_error_message),
+                (getString(R.string.forecast_error_title),
                  getString(R.string.no_internet_connection_message));
         dialog.show(getFragmentManager(), "dialog");
     }
