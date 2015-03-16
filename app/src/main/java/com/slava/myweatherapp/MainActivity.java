@@ -1,5 +1,8 @@
 package com.slava.myweatherapp;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -19,7 +22,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     // BeerSheva coordinates
-    private double latitude = 31.2589;
+    private double latitude = 931.2589;
     private double longitude = 34.7997;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,42 +44,65 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void getForecast(String forecastUrl) {
-        // Creation of OkHttp Web request
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(forecastUrl)
-                .build();
-        Call call = client.newCall(request);
+        if (isNetworkAvailable()) {
+            // Creation of OkHttp Web request
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(forecastUrl)
+                    .build();
+            Call call = client.newCall(request);
 
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
 
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-
-                try {
-                    if(response.isSuccessful()) {
-                        Log.v(TAG, response.body().string());
-                    } else {
-                        Log.v(TAG, "There is some problem with connection to Forecast.");
-                        userForecastAlert();
-                    }
-                } catch (IOException e) {
-                    Log.e(TAG, "IOException caught: ", e);
-                } catch (Exception e) {
-                    Log.e(TAG, "Generic Exception caught: ", e);
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+
+                    try {
+                        if(response.isSuccessful()) {
+                            Log.v(TAG, response.body().string());
+                        } else {
+                            Log.v(TAG, "There is some problem with connection to Forecast.");
+                            userForecastAlert();
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "IOException caught: ", e);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Generic Exception caught: ", e);
+                    }
+                }
+            });
+        } else {
+            userNoInternetConnectionAlert();
+        }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isAvailable = false;
+        if(networkInfo != null && networkInfo.isConnected()) {
+            isAvailable = true;
+        }
+
+        return isAvailable;
     }
 
     private void userForecastAlert() {
         AlertDialogFragment dialog = AlertDialogFragment.setMessage
                 (getString(R.string.forecast_error_title),
                  getString(R.string.forecast_error_message));
+        dialog.show(getFragmentManager(), "dialog");
+    }
+
+    private void userNoInternetConnectionAlert() {
+        AlertDialogFragment dialog = AlertDialogFragment.setMessage
+                (getString(R.string.forecast_error_message),
+                 getString(R.string.no_internet_connection_message));
         dialog.show(getFragmentManager(), "dialog");
     }
 }
