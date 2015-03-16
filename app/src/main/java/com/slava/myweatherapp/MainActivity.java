@@ -13,6 +13,9 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 
@@ -20,6 +23,8 @@ public class MainActivity extends ActionBarActivity {
 
     // TAG for Logs
     public static final String TAG = MainActivity.class.getSimpleName();
+
+    private Current mCurrent;
 
     // BeerSheva coordinates
     private double latitude = 31.2589;
@@ -62,14 +67,18 @@ public class MainActivity extends ActionBarActivity {
                 public void onResponse(Response response) throws IOException {
 
                     try {
+                        String jsonData = response.body().string();
+                        Log.v(TAG, jsonData);
                         if(response.isSuccessful()) {
-                            Log.v(TAG, response.body().string());
+                            mCurrent = getCurrentDetailes(jsonData);
                         } else {
                             Log.v(TAG, "There is some problem with connection to Forecast.");
                             userForecastAlert();
                         }
                     } catch (IOException e) {
-                        Log.e(TAG, "IOException caught: ", e);
+                        Log.e(TAG, "IO Exception caught: ", e);
+                    } catch (JSONException e) {
+                        Log.e(TAG, "JSON Exception caught: ", e);
                     } catch (Exception e) {
                         Log.e(TAG, "Generic Exception caught: ", e);
                     }
@@ -78,6 +87,12 @@ public class MainActivity extends ActionBarActivity {
         } else {
             userNoInternetConnectionAlert();
         }
+    }
+
+    private Current getCurrentDetailes(String jsonData) throws JSONException {
+        JSONObject forecast = new JSONObject(jsonData);
+
+        return null;
     }
 
     private boolean isNetworkAvailable() {
