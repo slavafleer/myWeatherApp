@@ -62,6 +62,7 @@ public class MainActivity extends ActionBarActivity {
                         Log.v(TAG, response.body().string());
                     } else {
                         Log.v(TAG, "There is some problem with connection to Forecast");
+                        userAlertMessage();
                     }
                 } catch (IOException e) {
                     Log.e(TAG, "IOException caught: ", e);
@@ -70,5 +71,10 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    private void userAlertMessage() {
+        AlertDialogFragment dialog = new AlertDialogFragment();
+        dialog.show(getFragmentManager(), "error_dialog");
     }
 }
