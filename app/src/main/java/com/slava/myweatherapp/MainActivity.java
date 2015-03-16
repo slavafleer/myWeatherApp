@@ -18,18 +18,29 @@ public class MainActivity extends ActionBarActivity {
     // TAG for Logs
     public static final String TAG = MainActivity.class.getSimpleName();
 
+    // BeerSheva coordinates
+    private double latitude = 31.2589;
+    private double longitude = 34.7997;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String forecastUrl = createForecastUrl(latitude, longitude);
+        getForecast(forecastUrl);
+
+
+    }
+
+    private String createForecastUrl(double latitude, double longitude) {
         // Creation of Forecast URL
         String apiKey = "f330ede89d6b04c04dfed6f53bffeafb";
-        // BeerSheva coordinates
-        Double latitude = 31.2589;
-        Double longitude = 34.7997;
-        String forecastUrl = "https://api.forecast.io/forecast/"
-                + apiKey + "/" + latitude + "," + longitude;
 
+        return "https://api.forecast.io/forecast/"
+                + apiKey + "/" + latitude + "," + longitude;
+    }
+
+    private void getForecast(String forecastUrl) {
         // Creation of OkHttp Web request
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -47,10 +58,11 @@ public class MainActivity extends ActionBarActivity {
             public void onResponse(Response response) throws IOException {
 
                 try {
-                    if(response.isSuccessful())
+                    if(response.isSuccessful()) {
                         Log.v(TAG, response.body().string());
-                    else
+                    } else {
                         Log.v(TAG, "There is some problem with connection to Forecast");
+                    }
                 } catch (IOException e) {
                     Log.e(TAG, "IOException caught: ", e);
                 } catch (Exception e) {
