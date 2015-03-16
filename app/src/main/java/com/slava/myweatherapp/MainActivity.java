@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
                     if(response.isSuccessful())
                         Log.v(TAG, response.body().string());
                     else
-                        Log.v(TAG, "There is some problem with connection to Forecast");
+                        Log.v(TAG, "There is some problem with connection to Forecast.");
                 } catch (IOException e) {
                     Log.e(TAG, "IOException caught: ", e);
                 } catch (Exception e) {
