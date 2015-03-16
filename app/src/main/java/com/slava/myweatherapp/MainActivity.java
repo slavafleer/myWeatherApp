@@ -19,7 +19,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     // BeerSheva coordinates
-    private double latitude = 931.2589;
+    private double latitude = 31.2589;
     private double longitude = 34.7997;
 
     protected void onCreate(Bundle savedInstanceState) {
