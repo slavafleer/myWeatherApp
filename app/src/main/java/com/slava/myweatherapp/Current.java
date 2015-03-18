@@ -5,14 +5,17 @@ package com.slava.myweatherapp;
  */
 public class Current {
     private long mTime;
+    private String mTimeZone;
     private String mSummary;
     private String mIcon;
     private double mPrecipProbability; // chance for rain
     private double mTemperature;
     private double mApparentTemperature; // feels like temp
-    private double mMinTemperature; // taken from daily
-    private double mMaxTemperature;
-    private String mWeeklySummary;
+    private double mTemperatureMin; // taken from daily
+    private long mTemperatureMinTime; //    |
+    private double mTemperatureMax; //      |
+    private long mTemperatureMaxTime; //    |
+    private String mWeeklySummary;  // taken from daily
 
     public long getTime() {
         return mTime;
@@ -20,6 +23,14 @@ public class Current {
 
     public void setTime(long time) {
         mTime = time;
+    }
+
+    public String getTimeZone() {
+        return mTimeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        mTimeZone = timeZone;
     }
 
     public String getSummary() {
@@ -62,20 +73,36 @@ public class Current {
         mApparentTemperature = apparentTemperature;
     }
 
-    public double getMinTemperature() {
-        return mMinTemperature;
+    public double getTemperatureMin() {
+        return mTemperatureMin;
     }
 
-    public void setMinTemperature(double minTemperature) {
-        mMinTemperature = minTemperature;
+    public void setTemperatureMin(double temperatureMin) {
+        mTemperatureMin = temperatureMin;
     }
 
-    public double getMaxTemperature() {
-        return mMaxTemperature;
+    public long getTemperatureMinTime() {
+        return mTemperatureMinTime;
     }
 
-    public void setMaxTemperature(double maxTemperature) {
-        mMaxTemperature = maxTemperature;
+    public void setTemperatureMinTime(long temperatureMinTime) {
+        mTemperatureMinTime = temperatureMinTime;
+    }
+
+    public double getTemperatureMax() {
+        return mTemperatureMax;
+    }
+
+    public long getTemperatureMaxTime() {
+        return mTemperatureMaxTime;
+    }
+
+    public void setTemperatureMaxTime(long temperatureMaxTime) {
+        mTemperatureMaxTime = temperatureMaxTime;
+    }
+
+    public void setTemperatureMax(double temperatureMax) {
+        mTemperatureMax = temperatureMax;
     }
 
     public String getWeeklySummary() {

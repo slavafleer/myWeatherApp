@@ -91,8 +91,24 @@ public class MainActivity extends ActionBarActivity {
 
     private Current getCurrentDetailes(String jsonData) throws JSONException {
         JSONObject forecast = new JSONObject(jsonData);
+        Current current = new Current();
+        JSONObject currently = forecast.getJSONObject("currently");
+        JSONObject daily = currently.getJSONObject("daily");
 
-        return null;
+        current.setTime(currently.getLong("time"));
+        current.setTimeZone(forecast.getString("timezone"));
+        current.setSummary(currently.getString("summary"));
+        current.setIcon(currently.getString("icon"));
+        current.setPrecipProbability(currently.getDouble("precipProbability"));
+        current.setTemperature(currently.getDouble("temperature"));
+        current.setApparentTemperature(currently.getDouble("apparentTemperature"));
+        current.setTemperatureMin(daily.getDouble("temperatureMin"));
+        current.setTemperatureMinTime(daily.getLong("temperatureMinTime"));
+        current.setTemperatureMax(daily.getDouble("temperatureMax"));
+        current.setTemperatureMaxTime(daily.getLong("temperatureMaxTime"));
+        current.setWeeklySummary(daily.getString("summary"));
+
+        return current;
     }
 
     private boolean isNetworkAvailable() {
