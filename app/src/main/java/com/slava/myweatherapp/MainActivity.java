@@ -13,6 +13,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -93,7 +94,9 @@ public class MainActivity extends ActionBarActivity {
         JSONObject forecast = new JSONObject(jsonData);
         Current current = new Current();
         JSONObject currently = forecast.getJSONObject("currently");
-        JSONObject daily = currently.getJSONObject("daily");
+        JSONObject daily = forecast.getJSONObject("daily");
+        JSONArray dailyData = daily.getJSONArray("data");
+        JSONObject currentDay = dailyData.getJSONObject(0);
 
         current.setTime(currently.getLong("time"));
         current.setTimeZone(forecast.getString("timezone"));
@@ -102,10 +105,11 @@ public class MainActivity extends ActionBarActivity {
         current.setPrecipProbability(currently.getDouble("precipProbability"));
         current.setTemperature(currently.getDouble("temperature"));
         current.setApparentTemperature(currently.getDouble("apparentTemperature"));
-        current.setTemperatureMin(daily.getDouble("temperatureMin"));
-        current.setTemperatureMinTime(daily.getLong("temperatureMinTime"));
-        current.setTemperatureMax(daily.getDouble("temperatureMax"));
-        current.setTemperatureMaxTime(daily.getLong("temperatureMaxTime"));
+        current.setHumidity(currently.getDouble("humidity"));
+        current.setTemperatureMin(currentDay.getDouble("temperatureMin"));
+        current.setTemperatureMinTime(currentDay.getLong("temperatureMinTime"));
+        current.setTemperatureMax(currentDay.getDouble("temperatureMax"));
+        current.setTemperatureMaxTime(currentDay.getLong("temperatureMaxTime"));
         current.setWeeklySummary(daily.getString("summary"));
 
         return current;

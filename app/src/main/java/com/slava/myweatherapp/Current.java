@@ -11,6 +11,7 @@ public class Current {
     private double mPrecipProbability; // chance for rain
     private double mTemperature;
     private double mApparentTemperature; // feels like temp
+    private double mHumidity;
     private double mTemperatureMin; // taken from daily
     private long mTemperatureMinTime; //    |
     private double mTemperatureMax; //      |
@@ -71,6 +72,14 @@ public class Current {
 
     public void setApparentTemperature(double apparentTemperature) {
         mApparentTemperature = apparentTemperature;
+    }
+
+    public double getHumidity() {
+        return mHumidity;
+    }
+
+    public void setHumidity(double humidity) {
+        mHumidity = humidity;
     }
 
     public double getTemperatureMin() {
