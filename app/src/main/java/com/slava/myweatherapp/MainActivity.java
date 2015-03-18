@@ -41,6 +41,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    // Forecast URL
     private String createForecastUrl(double latitude, double longitude) {
         // Creation of Forecast URL
         String apiKey = "f330ede89d6b04c04dfed6f53bffeafb";
@@ -49,6 +50,7 @@ public class MainActivity extends ActionBarActivity {
                 + apiKey + "/" + latitude + "," + longitude;
     }
 
+    // Get request
     private void getForecast(String forecastUrl) {
         if (isNetworkAvailable()) {
             // Creation of OkHttp Web request
@@ -90,6 +92,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    // Putting data from forecast string to Current class.
     private Current getCurrentDetailes(String jsonData) throws JSONException {
         JSONObject forecast = new JSONObject(jsonData);
         Current current = new Current();
@@ -115,6 +118,7 @@ public class MainActivity extends ActionBarActivity {
         return current;
     }
 
+    // Checkong internet status before Get request
     private boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -127,6 +131,7 @@ public class MainActivity extends ActionBarActivity {
         return isAvailable;
     }
 
+    // Errors messages. Using AlertDialogFragment class
     private void userForecastAlert() {
         AlertDialogFragment dialog = AlertDialogFragment.setMessage
                 (getString(R.string.forecast_error_title),
