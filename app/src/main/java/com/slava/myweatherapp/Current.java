@@ -67,24 +67,24 @@ public class Current {
         mIcon = icon;
     }
 
-    public double getPrecipProbability() {
-        return mPrecipProbability;
+    public int getPrecipProbability() {
+        return (int) mPrecipProbability * 100;
     }
 
     public void setPrecipProbability(double precipProbability) {
         mPrecipProbability = precipProbability;
     }
 
-    public double getTemperature() {
-        return mTemperature;
+    public int getTemperature() {
+        return (int) Math.round(mTemperature);
     }
 
     public void setTemperature(double temperature) {
         mTemperature = temperature;
     }
 
-    public double getApparentTemperature() {
-        return mApparentTemperature;
+    public int getApparentTemperature() {
+        return (int) Math.round(mApparentTemperature);
     }
 
     public void setApparentTemperature(double apparentTemperature) {
@@ -99,8 +99,8 @@ public class Current {
         mHumidity = humidity;
     }
 
-    public double getTemperatureMin() {
-        return mTemperatureMin;
+    public int getTemperatureMin() {
+        return (int) Math.round(mTemperatureMin);
     }
 
     public void setTemperatureMin(double temperatureMin) {
@@ -119,8 +119,8 @@ public class Current {
         mTemperatureMinTime = temperatureMinTime;
     }
 
-    public double getTemperatureMax() {
-        return mTemperatureMax;
+    public int getTemperatureMax() {
+        return (int) Math.round(mTemperatureMax);
     }
 
     public long getTemperatureMaxTime() {

@@ -6,6 +6,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -19,6 +21,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -27,6 +32,18 @@ public class MainActivity extends ActionBarActivity {
 
     private Current mCurrent;
 
+    @InjectView(R.id.locationLabel) TextView location;
+    @InjectView(R.id.timeLabel) TextView time;
+    @InjectView(R.id.temperature) TextView temperature;
+    @InjectView(R.id.maxTemperature) TextView maxTemperature;
+    @InjectView(R.id.minTemperature) TextView minTemperature;
+    @InjectView(R.id.feelsLikeTemperature) TextView feelsLikeTemperature;
+    @InjectView(R.id.icon) ImageView icon;
+    @InjectView(R.id.summary) TextView summary;
+    @InjectView(R.id.weeklySummary) TextView weeklySummary;
+    @InjectView(R.id.humidityValue) TextView humidity;
+    @InjectView(R.id.precipValue) TextView precip;
+
     // BeerSheva coordinates
     private double latitude = 31.2589;
     private double longitude = 34.7997;
@@ -34,6 +51,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ButterKnife.inject(this);
 
         String forecastUrl = createForecastUrl(latitude, longitude);
         getForecast(forecastUrl);
@@ -46,7 +65,8 @@ public class MainActivity extends ActionBarActivity {
         String apiKey = "f330ede89d6b04c04dfed6f53bffeafb";
 
         return "https://api.forecast.io/forecast/"
-                + apiKey + "/" + latitude + "," + longitude;
+                + apiKey + "/" + latitude + "," + longitude
+                + "?units=ca"; // data in celsius and kilometers
     }
 
     // Get request
@@ -73,6 +93,7 @@ public class MainActivity extends ActionBarActivity {
                         Log.v(TAG, jsonData);
                         if(response.isSuccessful()) {
                             mCurrent = getCurrentDetailes(jsonData);
+                            updateDisplay();
                         } else {
                             Log.v(TAG, "There is some problem with connection to Forecast.");
                             userForecastAlert();
@@ -89,6 +110,26 @@ public class MainActivity extends ActionBarActivity {
         } else {
             userNoInternetConnectionAlert();
         }
+    }
+
+    // Updating main layout
+    private void updateDisplay() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                time.setText("At " + mCurrent.getFormattedTime() + " it will be");
+                temperature.setText(mCurrent.getTemperature() + "");
+                maxTemperature.setText(mCurrent.getTemperatureMax() +
+                        " at " + mCurrent.getFormattedTemperatureMaxTime());
+                minTemperature.setText(mCurrent.getTemperatureMin() +
+                        " at " + mCurrent.getFormattedTemperatureMinTime());
+                feelsLikeTemperature.setText(mCurrent.getApparentTemperature() + "");
+                summary.setText(mCurrent.getSummary());
+                weeklySummary.setText(mCurrent.getWeeklySummary());
+                humidity.setText(mCurrent.getHumidity() + "");
+                precip.setText(mCurrent.getPrecipProbability() + "%");
+            }
+        } );
     }
 
     // Putting data from forecast string to Current class.
