@@ -7,9 +7,9 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context=".MainActivity"
-                android:background="#ff78ff40"
+                android:background="#ff000000"
                 android:focusable="false"
-                android:id="@+id/">
+                android:id="@+id/mainLayout">
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,18 +19,20 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textSize="24sp"
-        android:textColor="@android:color/holo_orange_dark"/>
+        android:textColor="#80ffffff"
+        android:layout_marginTop="40dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="100"
+        android:text="120"
         android:id="@+id/temperature"
-        android:layout_below="@+id/locationLabel"
+        android:textColor="#80ffffff"
+        android:textSize="120sp"
+        android:layout_below="@+id/timeLabel"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:textColor="#c8ffffff"
-        android:textSize="100sp"/>
+        android:singleLine="true"
+        />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -39,5 +41,188 @@
         android:layout_alignTop="@+id/temperature"
         android:layout_toRightOf="@+id/temperature"
         android:layout_toEndOf="@+id/temperature"
-        android:src="@drawable/degree"/>
+        android:src="@drawable/degree"
+        android:layout_marginTop="40dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timeLabel"
+        android:layout_below="@+id/locationLabel"
+        android:layout_centerHorizontal="true"
+        android:text="At 17:00 it will be"
+        android:layout_marginTop="30dp"
+        android:textSize="16sp"
+        android:textColor="#80ffffff"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="There is rain now."
+        android:id="@+id/summary"
+        android:textSize="16sp"
+        android:textColor="#80ffffff"
+        android:layout_below="@+id/icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/icon"
+        android:layout_below="@+id/temperature"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/rain"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Today&apos;s"
+        android:id="@+id/todaysLabel"
+        android:layout_alignTop="@+id/degreeCircle"
+        android:layout_toLeftOf="@+id/temperature"
+        android:layout_toStartOf="@+id/temperature"
+        android:textColor="#80ffffff"
+        android:textSize="11sp"
+        android:gravity="center_horizontal"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Maximum"
+        android:id="@+id/maximumLabel"
+        android:textColor="#80ffffff"
+        android:textSize="11sp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/todaysLabel"
+        android:layout_toLeftOf="@+id/temperature"
+        android:layout_toStartOf="@+id/temperature"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="130"
+        android:id="@+id/maxTemperature"
+        android:textColor="#80ffffff"
+        android:textSize="15sp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/maximumLabel"
+        android:layout_toLeftOf="@+id/temperature"
+        android:layout_toStartOf="@+id/temperature"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Minimum"
+        android:id="@+id/minimumLabel"
+        android:textColor="#80ffffff"
+        android:textSize="11sp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/maxTemperature"
+        android:layout_toLeftOf="@+id/temperature"
+        android:layout_toStartOf="@+id/temperature"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="100"
+        android:id="@+id/minTemperature"
+        android:textColor="#80ffffff"
+        android:textSize="15sp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/minimumLabel"
+        android:layout_toLeftOf="@+id/temperature"
+        android:layout_toStartOf="@+id/temperature"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Feels like"
+        android:id="@+id/feelsLikeLabel"
+        android:textColor="#80ffffff"
+        android:textSize="11sp"
+        android:gravity="center_horizontal"
+        android:layout_toRightOf="@+id/temperature"
+        android:layout_marginTop="10dp"
+        android:layout_alignBottom="@+id/minimumLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="124"
+        android:id="@+id/feelsLikeTemperature"
+        android:textColor="#80ffffff"
+        android:textSize="15sp"
+        android:gravity="center_horizontal"
+        android:layout_toRightOf="@+id/temperature"
+        android:layout_alignBottom="@+id/minTemperature"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Light rain on Sunday and Monday, with temperatures bottoming out at 62°F on Monday."
+        android:id="@+id/weeklySummary"
+        android:textSize="16sp"
+        android:textColor="#80ffffff"
+        android:layout_below="@+id/summary"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weeklySummary"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HUMIDITY"
+                android:id="@+id/humidityLabel"
+                android:textColor="#80ffffff"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.55"
+                android:id="@+id/humidityValue"
+                android:textColor="#80ffffff"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PRECIPITATION"
+                android:id="@+id/precipLabel"
+                android:layout_gravity="center"
+                android:textColor="#80ffffff"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="55%"
+                android:id="@+id/textView4"
+                android:layout_gravity="center"
+                android:textColor="#80ffffff"/>
+        </LinearLayout>
+    </LinearLayout>
+
 </RelativeLayout>
