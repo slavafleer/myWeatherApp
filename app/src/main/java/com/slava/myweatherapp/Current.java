@@ -1,5 +1,9 @@
 package com.slava.myweatherapp;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * Created by Slava on 16/03/2015.
  */
@@ -18,12 +22,25 @@ public class Current {
     private long mTemperatureMaxTime; //    |
     private String mWeeklySummary;  // taken from daily
 
+    public String formatTime(long unixTime) {
+        SimpleDateFormat formatter = new SimpleDateFormat("H:mm"); //24 hours format
+        formatter.setTimeZone(TimeZone.getTimeZone(getTimeZone()));
+        Date dateTime = new Date(unixTime * 1000); // Date uses milliseconds, while mTime in seconds.
+
+        // Turning Date to String
+        return formatter.format(dateTime);
+    }
+
     public long getTime() {
         return mTime;
     }
 
     public void setTime(long time) {
         mTime = time;
+    }
+
+    public String getFormattedTime() {
+        return formatTime(getTime());
     }
 
     public String getTimeZone() {
@@ -94,6 +111,10 @@ public class Current {
         return mTemperatureMinTime;
     }
 
+    public String getFormattedTemperatureMinTime() {
+        return formatTime(getTemperatureMinTime());
+    }
+
     public void setTemperatureMinTime(long temperatureMinTime) {
         mTemperatureMinTime = temperatureMinTime;
     }
@@ -104,6 +125,10 @@ public class Current {
 
     public long getTemperatureMaxTime() {
         return mTemperatureMaxTime;
+    }
+
+    public String getFormattedTemperatureMaxTime() {
+        return formatTime(getTemperatureMaxTime());
     }
 
     public void setTemperatureMaxTime(long temperatureMaxTime) {

@@ -38,7 +38,6 @@ public class MainActivity extends ActionBarActivity {
         String forecastUrl = createForecastUrl(latitude, longitude);
         getForecast(forecastUrl);
 
-
     }
 
     // Forecast URL
