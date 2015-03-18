@@ -24,4 +24,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     // 3rd party library for Web request
     compile 'com.squareup.okhttp:okhttp:2.2.0'
+    // 3rd party library for fast View injections
+    compile 'com.jakewharton:butterknife:6.1.0'
 }
