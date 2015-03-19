@@ -7,9 +7,8 @@ import android.graphics.Color;
  */
 public class Settings {
     // Defaults settings
-    //public static int backgroudColor = Color.parseColor("#FFFF9E33");
     public static int backgroudColor = Color.BLACK;
     public static int textColor = Color.parseColor("#80ffffff"); // half transparent white
-    //public static int textColor = Color.BLACK;
+    public static int applyBackgroundColor = Color.parseColor("#80ffffff");
 
 }

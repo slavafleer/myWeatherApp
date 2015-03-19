@@ -3,9 +3,11 @@ package com.slava.myweatherapp.ui;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.slava.myweatherapp.R;
 import com.slava.myweatherapp.Settings;
@@ -21,6 +23,7 @@ public class SettingsActivity extends ActionBarActivity {
     @InjectView(R.id.colorLabel) TextView mColorLabel;
     @InjectView(R.id.choice1) RadioButton mChoice1;
     @InjectView(R.id.choice2) RadioButton mChoice2;
+    @InjectView(R.id.applyButton) Button mApplyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +36,14 @@ public class SettingsActivity extends ActionBarActivity {
     }
 
     private void updateLayoutSettings() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mSettingsLayout.setBackgroundColor(Settings.backgroudColor);
-                int textColor = Settings.textColor;
-                mSettingTopicLabel.setTextColor(textColor);
-                mColorLabel.setTextColor(textColor);
-                mChoice1.setTextColor(textColor);
-                mChoice2.setTextColor(textColor);
-            }
-        });
+        int backgroundColor = Settings.backgroudColor;
+        mSettingsLayout.setBackgroundColor(backgroundColor);
+        int textColor = Settings.textColor;
+        mSettingTopicLabel.setTextColor(textColor);
+        mColorLabel.setTextColor(textColor);
+        mChoice1.setTextColor(textColor);
+        mChoice2.setTextColor(textColor);
+        mApplyButton.setTextColor(backgroundColor);
     }
 
     void syncronize() {
@@ -63,6 +63,7 @@ public class SettingsActivity extends ActionBarActivity {
             Settings.textColor = Color.BLACK;
         }
         updateLayoutSettings();
+        Toast.makeText(this, "Settings applied", Toast.LENGTH_SHORT).show();
     }
 
 }
