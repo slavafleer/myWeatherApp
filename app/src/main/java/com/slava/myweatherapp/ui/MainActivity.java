@@ -1,6 +1,7 @@
-package com.slava.myweatherapp;
+package com.slava.myweatherapp.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.slava.myweatherapp.AlertDialogFragment;
+import com.slava.myweatherapp.Current;
+import com.slava.myweatherapp.R;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -49,6 +53,7 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.precipValue) TextView mPrecip;
     @InjectView(R.id.refreshButton) ImageView mRefreshButton;
     @InjectView(R.id.progressSpinner) ProgressBar mProgressSpinner;
+    @InjectView(R.id.settingsButton) ImageView mSettingsButton;
 
     // BeerSheva coordinates
     private double latitude = 31.2589;
@@ -71,6 +76,14 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 getForecast(forecastUrl);
+            }
+        });
+
+        mSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
             }
         });
     }
