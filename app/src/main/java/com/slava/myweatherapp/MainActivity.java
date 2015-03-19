@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.okhttp.Call;
@@ -47,6 +48,7 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.humidityValue) TextView mHumidity;
     @InjectView(R.id.precipValue) TextView mPrecip;
     @InjectView(R.id.refreshButton) ImageView mRefreshButton;
+    @InjectView(R.id.progressSpinner) ProgressBar mProgressSpinner;
 
     // BeerSheva coordinates
     private double latitude = 31.2589;
@@ -60,12 +62,30 @@ public class MainActivity extends ActionBarActivity {
         ButterKnife.inject(this);
 
         final String forecastUrl = createForecastUrl(latitude, longitude);
+
+        toggleRefreshButton();
+
         getForecast(forecastUrl);
 
         mRefreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getForecast(forecastUrl);
+            }
+        });
+    }
+
+    private void toggleRefreshButton() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(mProgressSpinner.getVisibility() == View.INVISIBLE) {
+                    mProgressSpinner.setVisibility(View.VISIBLE);
+                    mRefreshButton.setVisibility(View.INVISIBLE);
+                } else {
+                    mProgressSpinner.setVisibility(View.INVISIBLE);
+                    mRefreshButton.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -83,6 +103,7 @@ public class MainActivity extends ActionBarActivity {
     // Get request
     private void getForecast(String forecastUrl) {
         if (isNetworkAvailable()) {
+            toggleRefreshButton();
             // Creation of OkHttp Web request
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
@@ -93,12 +114,12 @@ public class MainActivity extends ActionBarActivity {
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Request request, IOException e) {
-
+                    toggleRefreshButton();
                 }
 
                 @Override
                 public void onResponse(Response response) throws IOException {
-
+                    toggleRefreshButton();
                     try {
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
