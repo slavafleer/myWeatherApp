@@ -117,6 +117,7 @@ public class MainActivity extends ActionBarActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                // mCurrent --> main layout
                 time.setText("At " + mCurrent.getFormattedTime() + " it will be");
                 temperature.setText(mCurrent.getTemperature() + "");
                 maxTemperature.setText(mCurrent.getTemperatureMax() +
@@ -124,6 +125,7 @@ public class MainActivity extends ActionBarActivity {
                 minTemperature.setText(mCurrent.getTemperatureMin() +
                         " at " + mCurrent.getFormattedTemperatureMinTime());
                 feelsLikeTemperature.setText(mCurrent.getApparentTemperature() + "");
+                icon.setImageResource(mCurrent.getIconId());
                 summary.setText(mCurrent.getSummary());
                 weeklySummary.setText(mCurrent.getWeeklySummary());
                 humidity.setText(mCurrent.getHumidity() + "");
