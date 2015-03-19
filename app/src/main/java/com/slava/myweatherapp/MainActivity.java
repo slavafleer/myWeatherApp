@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,17 +35,18 @@ public class MainActivity extends ActionBarActivity {
 
     private Current mCurrent;
 
-    @InjectView(R.id.locationLabel) TextView location;
-    @InjectView(R.id.timeLabel) TextView time;
-    @InjectView(R.id.temperature) TextView temperature;
-    @InjectView(R.id.maxTemperature) TextView maxTemperature;
-    @InjectView(R.id.minTemperature) TextView minTemperature;
-    @InjectView(R.id.feelsLikeTemperature) TextView feelsLikeTemperature;
-    @InjectView(R.id.icon) ImageView icon;
-    @InjectView(R.id.summary) TextView summary;
-    @InjectView(R.id.weeklySummary) TextView weeklySummary;
-    @InjectView(R.id.humidityValue) TextView humidity;
-    @InjectView(R.id.precipValue) TextView precip;
+    @InjectView(R.id.locationLabel) TextView mLocation;
+    @InjectView(R.id.timeLabel) TextView mTime;
+    @InjectView(R.id.temperature) TextView mTemperature;
+    @InjectView(R.id.maxTemperature) TextView mMaxTemperature;
+    @InjectView(R.id.minTemperature) TextView mMinTemperature;
+    @InjectView(R.id.feelsLikeTemperature) TextView mFeelsLikeTemperature;
+    @InjectView(R.id.icon) ImageView mIcon;
+    @InjectView(R.id.summary) TextView mSummary;
+    @InjectView(R.id.weeklySummary) TextView mWeeklySummary;
+    @InjectView(R.id.humidityValue) TextView mHumidity;
+    @InjectView(R.id.precipValue) TextView mPrecip;
+    @InjectView(R.id.refreshButton) ImageView mRefreshButton;
 
     // BeerSheva coordinates
     private double latitude = 31.2589;
@@ -54,11 +56,18 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Use ButterKnife
         ButterKnife.inject(this);
 
-        String forecastUrl = createForecastUrl(latitude, longitude);
+        final String forecastUrl = createForecastUrl(latitude, longitude);
         getForecast(forecastUrl);
 
+        mRefreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getForecast(forecastUrl);
+            }
+        });
     }
 
     // Forecast URL
@@ -120,18 +129,18 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void run() {
                 // mCurrent --> main layout
-                time.setText("At " + mCurrent.getFormattedTime() + " it will be");
-                temperature.setText(mCurrent.getTemperature() + "");
-                maxTemperature.setText(mCurrent.getTemperatureMax() + degreeSign +
+                mTime.setText("At " + mCurrent.getFormattedTime() + " it will be");
+                mTemperature.setText(mCurrent.getTemperature() + "");
+                mMaxTemperature.setText(mCurrent.getTemperatureMax() + degreeSign +
                         " at " + mCurrent.getFormattedTemperatureMaxTime());
-                minTemperature.setText(mCurrent.getTemperatureMin() + degreeSign +
+                mMinTemperature.setText(mCurrent.getTemperatureMin() + degreeSign +
                         " at " + mCurrent.getFormattedTemperatureMinTime());
-                feelsLikeTemperature.setText(mCurrent.getApparentTemperature() + degreeSign);
-                icon.setImageResource(mCurrent.getIconId());
-                summary.setText(mCurrent.getSummary());
-                weeklySummary.setText(mCurrent.getWeeklySummary());
-                humidity.setText(mCurrent.getHumidity() + "");
-                precip.setText(mCurrent.getPrecipProbability() + "%");
+                mFeelsLikeTemperature.setText(mCurrent.getApparentTemperature() + degreeSign);
+                mIcon.setImageResource(mCurrent.getIconId());
+                mSummary.setText(mCurrent.getSummary());
+                mWeeklySummary.setText(mCurrent.getWeeklySummary());
+                mHumidity.setText(mCurrent.getHumidity() + "");
+                mPrecip.setText(mCurrent.getPrecipProbability() + "%");
             }
         } );
     }
@@ -189,4 +198,6 @@ public class MainActivity extends ActionBarActivity {
                  getString(R.string.no_internet_connection_message));
         dialog.show(getFragmentManager(), "dialog");
     }
+
+
 }
