@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.slava.myweatherapp.AlertDialogFragment;
 import com.slava.myweatherapp.Current;
 import com.slava.myweatherapp.R;
+import com.slava.myweatherapp.Settings;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -40,16 +42,24 @@ public class MainActivity extends ActionBarActivity {
 
     private Current mCurrent;
 
+    @InjectView(R.id.mainLayout) RelativeLayout mMainLayout;
+
     @InjectView(R.id.locationLabel) TextView mLocation;
     @InjectView(R.id.timeLabel) TextView mTime;
     @InjectView(R.id.temperature) TextView mTemperature;
+    @InjectView(R.id.todaysLabel) TextView mTodaysLabel;
+    @InjectView(R.id.maximumLabel) TextView mMaximumLabel;
     @InjectView(R.id.maxTemperature) TextView mMaxTemperature;
+    @InjectView(R.id.minimumLabel) TextView mMinLabel;
     @InjectView(R.id.minTemperature) TextView mMinTemperature;
+    @InjectView(R.id.feelsLikeLabel) TextView mFeelsLikeLabel;
     @InjectView(R.id.feelsLikeTemperature) TextView mFeelsLikeTemperature;
     @InjectView(R.id.icon) ImageView mIcon;
     @InjectView(R.id.summary) TextView mSummary;
     @InjectView(R.id.weeklySummary) TextView mWeeklySummary;
+    @InjectView(R.id.humidityLabel) TextView mHumidyLabel;
     @InjectView(R.id.humidityValue) TextView mHumidity;
+    @InjectView(R.id.precipLabel) TextView mPrecipLabel;
     @InjectView(R.id.precipValue) TextView mPrecip;
     @InjectView(R.id.refreshButton) ImageView mRefreshButton;
     @InjectView(R.id.progressSpinner) ProgressBar mProgressSpinner;
@@ -86,6 +96,14 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.v(TAG, "Returned to Main Layout");
+        updateSettings();
     }
 
     private void toggleRefreshButton() {
@@ -138,6 +156,7 @@ public class MainActivity extends ActionBarActivity {
                         Log.v(TAG, jsonData);
                         if(response.isSuccessful()) {
                             mCurrent = getCurrentDetailes(jsonData);
+                            updateSettings();
                             updateDisplay();
                         } else {
                             Log.v(TAG, "There is some problem with connection to Forecast.");
@@ -155,6 +174,34 @@ public class MainActivity extends ActionBarActivity {
         } else {
             userNoInternetConnectionAlert();
         }
+    }
+
+    private void updateSettings() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Layout design settings
+                mMainLayout.setBackgroundColor(Settings.backgroudColor);
+                int textColor = Settings.textColor;
+                mLocation.setTextColor(textColor);
+                mTime.setTextColor(textColor);
+                mTemperature.setTextColor(textColor);
+                mTodaysLabel.setTextColor(textColor);
+                mMaximumLabel.setTextColor(textColor);
+                mMaxTemperature.setTextColor(textColor);
+                mMinLabel.setTextColor(textColor);
+                mMinTemperature.setTextColor(textColor);
+                mFeelsLikeLabel.setTextColor(textColor);
+                mFeelsLikeTemperature.setTextColor(textColor);
+                mSummary.setTextColor(textColor);
+                mWeeklySummary.setTextColor(textColor);
+                mHumidyLabel.setTextColor(textColor);
+                mHumidity.setTextColor(textColor);
+                mPrecipLabel.setTextColor(textColor);
+                mPrecip.setTextColor(textColor);
+            }
+        });
+
     }
 
     // Updating main layout

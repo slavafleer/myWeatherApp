@@ -1,40 +1,68 @@
 package com.slava.myweatherapp.ui;
 
-import android.support.v7.app.ActionBarActivity;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
+import android.widget.RadioButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.slava.myweatherapp.R;
+import com.slava.myweatherapp.Settings;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class SettingsActivity extends ActionBarActivity {
+
+    @InjectView(R.id.settingsLayout) RelativeLayout mSettingsLayout;
+    @InjectView(R.id.settingsTopicLabel) TextView mSettingTopicLabel;
+    @InjectView(R.id.colorLabel) TextView mColorLabel;
+    @InjectView(R.id.choice1) RadioButton mChoice1;
+    @InjectView(R.id.choice2) RadioButton mChoice2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        ButterKnife.inject(this);
+
+        updateLayoutSettings();
+        syncronize();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_settings, menu);
-        return true;
+    private void updateLayoutSettings() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSettingsLayout.setBackgroundColor(Settings.backgroudColor);
+                int textColor = Settings.textColor;
+                mSettingTopicLabel.setTextColor(textColor);
+                mColorLabel.setTextColor(textColor);
+                mChoice1.setTextColor(textColor);
+                mChoice2.setTextColor(textColor);
+            }
+        });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    void syncronize() {
+        int backgroundColor = Settings.backgroudColor;
+        if(backgroundColor == Color.BLACK)
+            mChoice1.setChecked(true);
+        else if(backgroundColor == Color.parseColor("#FFFF9E33"))
+            mChoice2.setChecked(true);
+    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    @OnClick(R.id.applyButton) void onClickApplyButton() {
+        if(mChoice1.isChecked()) {
+            Settings.backgroudColor = Color.BLACK;
+            Settings.textColor = Color.parseColor("#80ffffff");
+        } else if(mChoice2.isChecked()) {
+            Settings.backgroudColor = Color.parseColor("#FFFF9E33"); // Orange
+            Settings.textColor = Color.BLACK;
         }
-
-        return super.onOptionsItemSelected(item);
+        updateLayoutSettings();
     }
+
 }
