@@ -30,6 +30,8 @@ public class MainActivity extends ActionBarActivity {
     // TAG for Logs
     public static final String TAG = MainActivity.class.getSimpleName();
 
+    public static final String degreeSign = "\u00B0";
+
     private Current mCurrent;
 
     @InjectView(R.id.locationLabel) TextView location;
@@ -120,11 +122,11 @@ public class MainActivity extends ActionBarActivity {
                 // mCurrent --> main layout
                 time.setText("At " + mCurrent.getFormattedTime() + " it will be");
                 temperature.setText(mCurrent.getTemperature() + "");
-                maxTemperature.setText(mCurrent.getTemperatureMax() +
+                maxTemperature.setText(mCurrent.getTemperatureMax() + degreeSign +
                         " at " + mCurrent.getFormattedTemperatureMaxTime());
-                minTemperature.setText(mCurrent.getTemperatureMin() +
+                minTemperature.setText(mCurrent.getTemperatureMin() + degreeSign +
                         " at " + mCurrent.getFormattedTemperatureMinTime());
-                feelsLikeTemperature.setText(mCurrent.getApparentTemperature() + "");
+                feelsLikeTemperature.setText(mCurrent.getApparentTemperature() + degreeSign);
                 icon.setImageResource(mCurrent.getIconId());
                 summary.setText(mCurrent.getSummary());
                 weeklySummary.setText(mCurrent.getWeeklySummary());
