@@ -6,4 +6,5 @@
     <string name="forecast_error_title">Error Alert</string>
     <string name="forecast_error_message">There is some problem with connection to Forecast.</string>
     <string name="no_internet_connection_message">There no Internet Connection.</string>
+    <string name="title_activity_settings">Settings</string>
 </resources>
