@@ -1,14 +1,22 @@
-package com.slava.myweatherapp;
+package com.slava.myweatherapp.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.slava.myweatherapp.AlertDialogFragment;
+import com.slava.myweatherapp.Current;
+import com.slava.myweatherapp.R;
+import com.slava.myweatherapp.Settings;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -30,19 +38,33 @@ public class MainActivity extends ActionBarActivity {
     // TAG for Logs
     public static final String TAG = MainActivity.class.getSimpleName();
 
+    public static final String degreeSign = "\u00B0";
+
     private Current mCurrent;
 
-    @InjectView(R.id.locationLabel) TextView location;
-    @InjectView(R.id.timeLabel) TextView time;
-    @InjectView(R.id.temperature) TextView temperature;
-    @InjectView(R.id.maxTemperature) TextView maxTemperature;
-    @InjectView(R.id.minTemperature) TextView minTemperature;
-    @InjectView(R.id.feelsLikeTemperature) TextView feelsLikeTemperature;
-    @InjectView(R.id.icon) ImageView icon;
-    @InjectView(R.id.summary) TextView summary;
-    @InjectView(R.id.weeklySummary) TextView weeklySummary;
-    @InjectView(R.id.humidityValue) TextView humidity;
-    @InjectView(R.id.precipValue) TextView precip;
+    @InjectView(R.id.mainLayout) RelativeLayout mMainLayout;
+
+    @InjectView(R.id.locationLabel) TextView mLocation;
+    @InjectView(R.id.timeLabel) TextView mTime;
+    @InjectView(R.id.temperature) TextView mTemperature;
+    @InjectView(R.id.todaysLabel) TextView mTodaysLabel;
+    @InjectView(R.id.maximumLabel) TextView mMaximumLabel;
+    @InjectView(R.id.maxTemperature) TextView mMaxTemperature;
+    @InjectView(R.id.minimumLabel) TextView mMinLabel;
+    @InjectView(R.id.minTemperature) TextView mMinTemperature;
+    @InjectView(R.id.feelsLikeLabel) TextView mFeelsLikeLabel;
+    @InjectView(R.id.feelsLikeTemperature) TextView mFeelsLikeTemperature;
+    @InjectView(R.id.icon) ImageView mIcon;
+    @InjectView(R.id.summary) TextView mSummary;
+    @InjectView(R.id.hourlySummary) TextView mHourlySummary;
+    @InjectView(R.id.weeklySummary) TextView mWeeklySummary;
+    @InjectView(R.id.humidityLabel) TextView mHumidyLabel;
+    @InjectView(R.id.humidityValue) TextView mHumidity;
+    @InjectView(R.id.precipLabel) TextView mPrecipLabel;
+    @InjectView(R.id.precipValue) TextView mPrecip;
+    @InjectView(R.id.refreshButton) ImageView mRefreshButton;
+    @InjectView(R.id.progressSpinner) ProgressBar mProgressSpinner;
+    @InjectView(R.id.settingsButton) ImageView mSettingsButton;
 
     // BeerSheva coordinates
     private double latitude = 31.2589;
@@ -52,11 +74,52 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Use ButterKnife
         ButterKnife.inject(this);
 
-        String forecastUrl = createForecastUrl(latitude, longitude);
+        final String forecastUrl = createForecastUrl(latitude, longitude);
+
+        toggleRefreshButton();
+
         getForecast(forecastUrl);
 
+        mRefreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getForecast(forecastUrl);
+            }
+        });
+
+        mSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.v(TAG, "Returned to Main Layout");
+        updateSettings();
+    }
+
+    private void toggleRefreshButton() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(mProgressSpinner.getVisibility() == View.INVISIBLE) {
+                    mProgressSpinner.setVisibility(View.VISIBLE);
+                    mRefreshButton.setVisibility(View.INVISIBLE);
+                } else {
+                    mProgressSpinner.setVisibility(View.INVISIBLE);
+                    mRefreshButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     // Forecast URL
@@ -72,6 +135,7 @@ public class MainActivity extends ActionBarActivity {
     // Get request
     private void getForecast(String forecastUrl) {
         if (isNetworkAvailable()) {
+            toggleRefreshButton();
             // Creation of OkHttp Web request
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
@@ -82,17 +146,18 @@ public class MainActivity extends ActionBarActivity {
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Request request, IOException e) {
-
+                    toggleRefreshButton();
                 }
 
                 @Override
                 public void onResponse(Response response) throws IOException {
-
+                    toggleRefreshButton();
                     try {
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
                         if(response.isSuccessful()) {
                             mCurrent = getCurrentDetailes(jsonData);
+                            updateSettings();
                             updateDisplay();
                         } else {
                             Log.v(TAG, "There is some problem with connection to Forecast.");
@@ -112,22 +177,54 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    private void updateSettings() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Layout design settings
+                mMainLayout.setBackgroundColor(Settings.backgroudColor);
+                int textColor = Settings.textColor;
+                mLocation.setTextColor(textColor);
+                mTime.setTextColor(textColor);
+                mTemperature.setTextColor(textColor);
+                mTodaysLabel.setTextColor(textColor);
+                mMaximumLabel.setTextColor(textColor);
+                mMaxTemperature.setTextColor(textColor);
+                mMinLabel.setTextColor(textColor);
+                mMinTemperature.setTextColor(textColor);
+                mFeelsLikeLabel.setTextColor(textColor);
+                mFeelsLikeTemperature.setTextColor(textColor);
+                mSummary.setTextColor(textColor);
+                mHourlySummary.setTextColor(textColor);
+                mWeeklySummary.setTextColor(textColor);
+                mHumidyLabel.setTextColor(textColor);
+                mHumidity.setTextColor(textColor);
+                mPrecipLabel.setTextColor(textColor);
+                mPrecip.setTextColor(textColor);
+            }
+        });
+
+    }
+
     // Updating main layout
     private void updateDisplay() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                time.setText("At " + mCurrent.getFormattedTime() + " it will be");
-                temperature.setText(mCurrent.getTemperature() + "");
-                maxTemperature.setText(mCurrent.getTemperatureMax() +
+                // mCurrent --> main layout
+                mTime.setText("At " + mCurrent.getFormattedTime() + " it will be");
+                mTemperature.setText(mCurrent.getTemperature() + "");
+                mMaxTemperature.setText(mCurrent.getTemperatureMax() + degreeSign +
                         " at " + mCurrent.getFormattedTemperatureMaxTime());
-                minTemperature.setText(mCurrent.getTemperatureMin() +
+                mMinTemperature.setText(mCurrent.getTemperatureMin() + degreeSign +
                         " at " + mCurrent.getFormattedTemperatureMinTime());
-                feelsLikeTemperature.setText(mCurrent.getApparentTemperature() + "");
-                summary.setText(mCurrent.getSummary());
-                weeklySummary.setText(mCurrent.getWeeklySummary());
-                humidity.setText(mCurrent.getHumidity() + "");
-                precip.setText(mCurrent.getPrecipProbability() + "%");
+                mFeelsLikeTemperature.setText(mCurrent.getApparentTemperature() + degreeSign);
+                mIcon.setImageResource(mCurrent.getIconId());
+                mSummary.setText(mCurrent.getSummary());
+                mHourlySummary.setText(mCurrent.getHourlySummary());
+                mWeeklySummary.setText(mCurrent.getWeeklySummary());
+                mHumidity.setText(mCurrent.getHumidity() + "");
+                mPrecip.setText(mCurrent.getPrecipProbability() + "%");
             }
         } );
     }
@@ -140,6 +237,7 @@ public class MainActivity extends ActionBarActivity {
         JSONObject daily = forecast.getJSONObject("daily");
         JSONArray dailyData = daily.getJSONArray("data");
         JSONObject currentDay = dailyData.getJSONObject(0);
+        JSONObject hourly = forecast.getJSONObject("hourly");
 
         current.setTime(currently.getLong("time"));
         current.setTimeZone(forecast.getString("timezone"));
@@ -153,6 +251,7 @@ public class MainActivity extends ActionBarActivity {
         current.setTemperatureMinTime(currentDay.getLong("temperatureMinTime"));
         current.setTemperatureMax(currentDay.getDouble("temperatureMax"));
         current.setTemperatureMaxTime(currentDay.getLong("temperatureMaxTime"));
+        current.setHourlySummary(hourly.getString("summary"));
         current.setWeeklySummary(daily.getString("summary"));
 
         return current;
@@ -185,4 +284,6 @@ public class MainActivity extends ActionBarActivity {
                  getString(R.string.no_internet_connection_message));
         dialog.show(getFragmentManager(), "dialog");
     }
+
+
 }

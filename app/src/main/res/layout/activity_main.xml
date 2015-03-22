@@ -15,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Beer Sheva, IL"
+        tools:text="Beer Sheva, IL"
         android:id="@+id/locationLabel"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -25,7 +26,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="120"
+        android:text="--"
+        tools:text="120"
         android:id="@+id/temperature"
         android:textColor="#80ffffff"
         android:textSize="120sp"
@@ -50,7 +52,8 @@
         android:id="@+id/timeLabel"
         android:layout_below="@+id/locationLabel"
         android:layout_centerHorizontal="true"
-        android:text="At 17:00 it will be"
+        android:text="The data is calculating..."
+        tools:text="At 17:00 it will be"
         android:layout_marginTop="30dp"
         android:textSize="16sp"
         android:textColor="#80ffffff"/>
@@ -58,7 +61,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="There is rain now."
+        android:text="..."
+        tools:text="There is rain now."
         android:id="@+id/summary"
         android:textSize="16sp"
         android:textColor="#80ffffff"
@@ -72,7 +76,7 @@
         android:id="@+id/icon"
         android:layout_below="@+id/temperature"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/rain"/>
+        android:src="@drawable/clear_day"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -102,7 +106,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="130"
+        android:text="--"
+        tools:text="130°"
         android:id="@+id/maxTemperature"
         android:textColor="#80ffffff"
         android:textSize="15sp"
@@ -126,7 +131,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="100"
+        android:text="--"
+        tools:text="100°"
         android:id="@+id/minTemperature"
         android:textColor="#80ffffff"
         android:textSize="15sp"
@@ -150,7 +156,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="124"
+        android:text="--"
+        tools:text="124°"
         android:id="@+id/feelsLikeTemperature"
         android:textColor="#80ffffff"
         android:textSize="15sp"
@@ -161,13 +168,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Light rain on Sunday and Monday, with temperatures bottoming out at 62°F on Monday."
+        android:text="..."
+        tools:text="Light rain on Sunday and Monday, with temperatures bottoming out at 62°F on Monday."
         android:id="@+id/weeklySummary"
         android:textSize="16sp"
         android:textColor="#80ffffff"
-        android:layout_below="@+id/summary"
-        android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
+        android:layout_below="@+id/hourlySummary"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"/>
 
     <LinearLayout
@@ -176,7 +184,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/weeklySummary"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:id="@+id/linearLayout">
 
         <LinearLayout
             android:orientation="vertical"
@@ -195,7 +204,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.55"
+                android:text="--"
+                tools:text="0.55"
                 android:id="@+id/humidityValue"
                 android:textColor="#80ffffff"
                 android:layout_gravity="center"/>
@@ -218,11 +228,53 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="55%"
+                android:text="--"
+                tools:text="55%"
                 android:id="@+id/precipValue"
                 android:layout_gravity="center"
                 android:textColor="#80ffffff"/>
         </LinearLayout>
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/refreshButton"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/refresh"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressSpinner"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignLeft="@+id/refreshButton"
+        android:layout_alignStart="@+id/refreshButton"
+        android:layout_alignRight="@+id/refreshButton"
+        android:layout_alignEnd="@+id/refreshButton"
+        android:layout_alignBottom="@+id/refreshButton"/>
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:id="@+id/settingsButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/settings"
+        android:scaleType="fitXY"
+        />
+
+    <TextView
+        tools:text="There is rain now."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:id="@+id/hourlySummary"
+        android:textSize="16sp"
+        android:textColor="#80ffffff"
+        android:layout_below="@+id/summary"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>
