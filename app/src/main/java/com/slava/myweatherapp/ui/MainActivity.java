@@ -56,6 +56,7 @@ public class MainActivity extends ActionBarActivity {
     @InjectView(R.id.feelsLikeTemperature) TextView mFeelsLikeTemperature;
     @InjectView(R.id.icon) ImageView mIcon;
     @InjectView(R.id.summary) TextView mSummary;
+    @InjectView(R.id.hourlySummary) TextView mHourlySummary;
     @InjectView(R.id.weeklySummary) TextView mWeeklySummary;
     @InjectView(R.id.humidityLabel) TextView mHumidyLabel;
     @InjectView(R.id.humidityValue) TextView mHumidity;
@@ -194,6 +195,7 @@ public class MainActivity extends ActionBarActivity {
                 mFeelsLikeLabel.setTextColor(textColor);
                 mFeelsLikeTemperature.setTextColor(textColor);
                 mSummary.setTextColor(textColor);
+                mHourlySummary.setTextColor(textColor);
                 mWeeklySummary.setTextColor(textColor);
                 mHumidyLabel.setTextColor(textColor);
                 mHumidity.setTextColor(textColor);
@@ -219,6 +221,7 @@ public class MainActivity extends ActionBarActivity {
                 mFeelsLikeTemperature.setText(mCurrent.getApparentTemperature() + degreeSign);
                 mIcon.setImageResource(mCurrent.getIconId());
                 mSummary.setText(mCurrent.getSummary());
+                mHourlySummary.setText(mCurrent.getHourlySummary());
                 mWeeklySummary.setText(mCurrent.getWeeklySummary());
                 mHumidity.setText(mCurrent.getHumidity() + "");
                 mPrecip.setText(mCurrent.getPrecipProbability() + "%");
@@ -234,6 +237,7 @@ public class MainActivity extends ActionBarActivity {
         JSONObject daily = forecast.getJSONObject("daily");
         JSONArray dailyData = daily.getJSONArray("data");
         JSONObject currentDay = dailyData.getJSONObject(0);
+        JSONObject hourly = forecast.getJSONObject("hourly");
 
         current.setTime(currently.getLong("time"));
         current.setTimeZone(forecast.getString("timezone"));
@@ -247,6 +251,7 @@ public class MainActivity extends ActionBarActivity {
         current.setTemperatureMinTime(currentDay.getLong("temperatureMinTime"));
         current.setTemperatureMax(currentDay.getDouble("temperatureMax"));
         current.setTemperatureMaxTime(currentDay.getLong("temperatureMaxTime"));
+        current.setHourlySummary(hourly.getString("summary"));
         current.setWeeklySummary(daily.getString("summary"));
 
         return current;

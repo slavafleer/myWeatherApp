@@ -20,6 +20,7 @@ public class Current {
     private long mTemperatureMinTime; //    |
     private double mTemperatureMax; //      |
     private long mTemperatureMaxTime; //    |
+    private String mHourlySummary; //       |
     private String mWeeklySummary;  // taken from daily
 
     public String formatTime(long unixTime) {
@@ -165,6 +166,14 @@ public class Current {
 
     public void setTemperatureMax(double temperatureMax) {
         mTemperatureMax = temperatureMax;
+    }
+
+    public String getHourlySummary() {
+        return mHourlySummary;
+    }
+
+    public void setHourlySummary(String hourlySummary) {
+        mHourlySummary = hourlySummary;
     }
 
     public String getWeeklySummary() {
