@@ -1,4 +1,4 @@
-package com.slava.myweatherapp;
+package com.slava.myweatherapp.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

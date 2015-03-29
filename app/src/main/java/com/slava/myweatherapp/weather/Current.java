@@ -1,4 +1,6 @@
-package com.slava.myweatherapp;
+package com.slava.myweatherapp.weather;
+
+import com.slava.myweatherapp.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

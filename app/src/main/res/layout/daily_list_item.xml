@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+
+    <TextView
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/dailyDayNameLabel"
+        android:textSize="20sp"
+        tools:text="Wednesday"
+        android:layout_marginLeft="50dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/sunny"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/dailyMaxMinValue"
+        android:layout_toEndOf="@+id/dailyMaxMinValue"
+        android:layout_marginLeft="10dp"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/dailyDayNameLabel"
+        android:layout_toEndOf="@+id/dailyDayNameLabel"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/dailyMaxMinLabel">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Maximum"
+            android:id="@+id/dailyMaxTempLabel"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Minimum"
+            android:id="@+id/dailyMinTempLabel"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textSize="10sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/dailyMaxMinLabel"
+        android:layout_toEndOf="@+id/dailyMaxMinLabel"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/dailyMaxMinValue">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="120°"
+            android:id="@+id/dailyMaxTempValue"
+            android:textSize="11sp"
+            android:layout_weight="1"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="100°"
+            android:id="@+id/dailyMinTempValue"
+            android:textSize="11sp"
+            android:layout_weight="1"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+</RelativeLayout>

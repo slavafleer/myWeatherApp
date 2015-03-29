@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.slava.myweatherapp.R;
-import com.slava.myweatherapp.Settings;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

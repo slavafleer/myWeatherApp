@@ -1,4 +1,4 @@
-package com.slava.myweatherapp;
+package com.slava.myweatherapp.weather;
 
 /**
  * Created by Slava on 22/03/2015.

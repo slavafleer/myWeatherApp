@@ -13,10 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.slava.myweatherapp.AlertDialogFragment;
-import com.slava.myweatherapp.Current;
+import com.slava.myweatherapp.weather.Current;
 import com.slava.myweatherapp.R;
-import com.slava.myweatherapp.Settings;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
